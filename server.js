@@ -6,8 +6,11 @@ const app = express()
 
 const databaseUrl = "workoutdb";
 const collections = ["excersise"]
-
 const db = mongojs(databaseUrl, collections);
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static("public"));
 
 db.on("error", error => {
     console.log("Databsde Error:", error);
@@ -34,6 +37,20 @@ app.get("/all", (req, res) => {
         }
     });
 });
+
+//route for adding an excersise
+
+app.post("/exercise", ({ body }, res) => {
+    const exercise = body;
+  
+    db.excersise.save(exercise, (error, saved) => {
+      if (error) {
+        console.log(error);
+      } else {
+        res.send(saved);
+      }
+    });
+  });
 
 
 app.listen(3000, () => {
