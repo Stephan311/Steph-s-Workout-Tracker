@@ -18,15 +18,17 @@ app.use(express.json());
 
 app.use(express.static("public"));
 
-mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/populate", { useNewUrlParser: true });
+mongoose.connect(
 
-db.Workout.create({ name: "Workout" })
-  .then(dbExercise => {
-    console.log(dbExercise);
-  })
-  .catch(({message}) => {
-    console.log(message);
-  });
+    process.env.MONGODB_URI || "mongodb://localhost/workout", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
+
+}
+);
+
 
   app.get("/api/workouts", (req, res) => {
     db.Workout.find({})
@@ -49,21 +51,19 @@ db.Workout.create({ name: "Workout" })
   });
 
 
-app.post("/api/workouts", ({body}, res) => {
-  db.Workout.create(body)
-    .then(({_id}) => db.Workout.findOneAndUpdate({}, { $push: { Exercise: _id } }, { new: true }))
-    .then(dbExercise => {
+app.post("/api/workouts", (req, res) => {
+  db.Workout.create({})
+    .then((dbExercise) => {
+      console.log(dbExercise)
       res.json(dbExercise);
+     
     })
-    .catch(err => {
-      res.json(err);
-    });
 });
 
 app.put("/api/workouts/:id", ({ params }, res) => {
   db.Workout.update(
     {
-      _id: mongojs.ObjectId(params.id)
+      _id: mongojs.ObjectId(params.id) //issue here
     },
     {
       $set: {

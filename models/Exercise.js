@@ -7,7 +7,8 @@ const exerciseSchema = new Schema({
   day: {
     type: Date,
     trim: true,
-    required: "Date is required"
+    required: "Date is required",
+    default: () => new Date(),
   },
 
   exercises: [
