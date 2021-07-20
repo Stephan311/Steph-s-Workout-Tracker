@@ -4,6 +4,8 @@ In this assignment, I created a workout tracker that allows a user to create new
 
 Link to Heroku Program: https://steph-s-workout-tracker.herokuapp.com/
 
-Screenshot of progranm:
+Screenshot of program:
+
+![sscresssssn](https://user-images.githubusercontent.com/76667667/126407839-fbc26561-8843-4deb-b5b9-7dece79600d0.JPG)
 
 
