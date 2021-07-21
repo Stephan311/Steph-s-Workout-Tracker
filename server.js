@@ -60,16 +60,16 @@ app.post("/api/workouts", (req, res) => {
     })
 });
 
-app.put("/api/workouts/:id", ({ params }, res) => {
-  db.Workout.update(
+app.put("/api/workouts/:id", ({ params, body }, res) => {
+  console.log(body)
+  db.Workout.findByIdAndUpdate(
+    mongojs.ObjectId(params.id),
     {
-      _id: mongojs.ObjectId(params.id) //issue here
-    },
-    {
-      $set: {
-        read: true
+      $push: {
+        exercises: body
       }
     },
+    
 
     (error, edited) => {
       if (error) {
@@ -82,6 +82,7 @@ app.put("/api/workouts/:id", ({ params }, res) => {
     }
   );
 });
+
 
     app.get("/", (req, res) => {
         res.sendFile(path.join(__dirname + "/public/index.html"));
